@@ -142,8 +142,8 @@ services:
         max-size: "30m"
         max-file: "30"
     ports:
-      - "80:80"
-      - "443:443"
+      - "880:80"
+      - "8443:443"
 
   mongodb-base:
     hostname: ${HOSTNAME_BASE}-mongo
