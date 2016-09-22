@@ -42,10 +42,10 @@ VOLUMES_USED = {
     'counterblock': ['bitcoin-data', 'counterparty-data', 'counterblock-data', 'mongodb-data'],
     'full': ['bitcoin-data', 'counterparty-data', 'counterblock-data', 'mongodb-data', 'armory-data']
 }
-UPDATE_CHOICES = ['counterparty', 'counterparty-testnet', 'counterblock',
-                  'counterblock-testnet', 'counterwallet', 'armory-utxsvr', 'armory-utxsvr-testnet']
-REPARSE_CHOICES = ['counterparty', 'counterparty-testnet', 'counterblock', 'counterblock-testnet']
-SHELL_CHOICES = UPDATE_CHOICES + ['mongodb', 'redis', 'bitcoin', 'bitcoin-testnet']
+UPDATE_CHOICES = ['counterparty',  'counterblock',
+                  'counterwallet', 'armory-utxsvr']
+REPARSE_CHOICES = ['counterparty',  'counterblock' ]
+SHELL_CHOICES = UPDATE_CHOICES + ['mongodb', 'redis', 'bitcoin']
 
 # set in setup_env()
 IS_WINDOWS = None
