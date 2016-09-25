@@ -19,16 +19,17 @@ services:
         max-size: "30m"
         max-file: "30"
 
-  bitcoin-base-mainnet:
-    hostname: ${HOSTNAME_BASE}-bc
+  
+
+  bitcoin-base-testnet:
+    hostname: ${HOSTNAME_BASE}-bc-t
     extends:
       service: bitcoin-base
     ports:
-      - "8332:8332"
+      - "18332:18332"
     environment:
-      - PARAMS=-conf=/root/.bitcoin-config/bitcoin.conf
+      - PARAMS=-conf=/root/.bitcoin-config/bitcoin.testnet.conf
 
-  
   counterparty-base:
     image: counterparty/counterparty-server:${FEDNODE_RELEASE_TAG}
     volumes:
@@ -42,14 +43,15 @@ services:
         max-size: "30m"
         max-file: "50"
 
-  counterparty-base-mainnet:
-    hostname: ${HOSTNAME_BASE}-cp
+  
+  counterparty-base-testnet:
+    hostname: ${HOSTNAME_BASE}-cp-t
     extends:
       service: counterparty-base
     ports:
-      - "4000:4000"
+      - "14000:14000"
     environment:
-      - PARAMS=--config-file=/root/.config/counterparty/server.conf
+      - PARAMS=--config-file=/root/.config/counterparty/server.testnet.conf
 
   counterblock-base:
     image: counterparty/counterblock:${FEDNODE_RELEASE_TAG}
@@ -63,15 +65,18 @@ services:
         max-size: "30m"
         max-file: "50"
 
-  counterblock-base-mainnet:
-    hostname: ${HOSTNAME_BASE}-cb
+  
+
+  counterblock-base-testnet:
+    hostname: ${HOSTNAME_BASE}-cb-t
     extends:
       service: counterblock-base
     ports:
-      - "4100:4100"
+      - "14100:14100"
+      - "14101:14101"
+      - "14102:14102"
     environment:
-      - PARAMS=--config-file=/root/.config/counterblock/server.conf
-
+      - PARAMS=--config-file=/root/.config/counterblock/server.testnet.conf
 
   armory-utxsvr-base:
     image: counterparty/armory-utxsvr:${FEDNODE_RELEASE_TAG}
@@ -85,17 +90,20 @@ services:
         max-size: "30m"
         max-file: "30"
 
-  armory-utxsvr-base-mainnet:
-    hostname: ${HOSTNAME_BASE}-amry
+  
+
+  armory-utxsvr-base-testnet:
+    hostname: ${HOSTNAME_BASE}-amry-t
     extends:
       service: armory-utxsvr-base
     environment:
-      - BITCOIND_URL=http://rpc:rpc@bitcoin:8332
+      - BITCOIND_URL=http://rpc:rpc@bitcoin-testnet:18332
       - RPC_HOST=0.0.0.0
+      - PARAMS=--testnet
 
   counterwallet-base:
     hostname: ${HOSTNAME_BASE}-cw
-    image: temelya/counterwallet:${FEDNODE_RELEASE_TAG}
+    image: counterparty/counterwallet:${FEDNODE_RELEASE_TAG}
     volumes:
       - ./src/counterwallet:/counterwallet
       - ./config/counterwallet/ssl:/ssl_config
@@ -106,8 +114,8 @@ services:
         max-size: "30m"
         max-file: "30"
     ports:
-      - "880:80"
-      - "8443:443"
+      - "80:80"
+      - "443:443"
 
   mongodb-base:
     hostname: ${HOSTNAME_BASE}-mongo
